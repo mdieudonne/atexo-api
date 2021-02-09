@@ -84,6 +84,7 @@ class Cards
     }
 
     $this->deck = [];
+    ksort($results);
     foreach ($results as $face => $suits) {
       ksort($suits);
       $this->deck = array_merge( $this->deck, $suits);
