@@ -20,43 +20,26 @@ class CardDealerService
 
   public function getCards(string $count): array
   {
-    $deck = $this->cards->buildDeck();
-    shuffle($deck);
+    $this->cards->buildDeck();
+    $this->cards->shuffleDeck();
 
     if (intval($count)) {
-      if ($count === 0 || $count > count($deck)) {
+      if ($count === 0 || $count > count($this->cards->getDeck())) {
         $error = new ApiError(400, ApiError::INVALID_COUNT_PARAM);
         throw new ApiErrorException($error);
       }
 
-      return array_slice($deck, 0, $count);
+      return array_slice($this->cards->getDeck(), 0, $count);
     }
 
-    return $deck;
+    return $this->cards->getDeck();
   }
 
-  public function validateAndSortHand(array $hand): array
+  public function sortHand(array $hand): array
   {
-    $results = [];
+    $this->cards->setDeck($hand);
+    $this->cards->sortDeck();
 
-    foreach ($hand as $card) {
-      [$face, $suit] = explode( ' ', $card);
-
-      if (!in_array($suit, $this->cards->getSuits())
-      || !in_array($face, $this->cards->getFaces())) {
-        $error = new ApiError(400, ApiError::INVALID_CARD);
-        throw new ApiErrorException($error);
-      }
-
-      $results[$suit][array_search($face, $this->cards->getFaces())] = $face . ' ' . $suit;
-    }
-
-    $sortedHand = [];
-    foreach ($results as $face => $suits) {
-      ksort($suits);
-      $sortedHand = array_merge($sortedHand, $suits);
-    }
-
-    return $sortedHand;
+    return $this->cards->getDeck();
   }
 }

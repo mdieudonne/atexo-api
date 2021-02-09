@@ -90,7 +90,7 @@ class CardDealer
       throw new ApiErrorException($error);
     }
 
-    $sortedhand = $cardDealerService->validateAndSortHand($hand);
+    $sortedhand = $cardDealerService->sortHand((array) $hand);
 
     return new JsonResponse($sortedhand,200);
 
