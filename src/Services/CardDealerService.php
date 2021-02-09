@@ -18,12 +18,12 @@ class CardDealerService
     $this->cards = new Cards();
   }
 
-  public function getCards(?int $count): array
+  public function getCards(string $count): array
   {
     $deck = $this->cards->buildDeck();
     shuffle($deck);
 
-    if ($count !== null) {
+    if (intval($count)) {
       if ($count === 0 || $count > count($deck)) {
         $error = new ApiError(400, ApiError::INVALID_COUNT_PARAM);
         throw new ApiErrorException($error);
@@ -35,11 +35,10 @@ class CardDealerService
     return $deck;
   }
 
-  public function validateAndSortHand(string $hand): array
+  public function validateAndSortHand(array $hand): array
   {
     $results = [];
 
-    $hand = json_decode($hand);
     foreach ($hand as $card) {
       [$face, $suit] = explode( ' ', $card);
 

@@ -46,6 +46,11 @@ class CardDealer
   {
     $count = $request->query->get('count');
 
+    if ($count === NULL) {
+      $error = new ApiError(400, ApiError::MISSING_PARAM);
+      throw new ApiErrorException($error);
+    }
+
     $hand = $cardDealerService->getCards($count);
 
     return new JsonResponse($hand, 200);
@@ -78,14 +83,14 @@ class CardDealer
    */
   public function sortHand(Request $request, CardDealerService $cardDealerService): JsonResponse
   {
-    $cards = $request->query->get('cards');
+    $hand = $request->query->get('hand');
 
-    if (empty($cards)) {
+    if (empty($hand)) {
       $error = new ApiError(400, ApiError::MISSING_PARAM);
       throw new ApiErrorException($error);
     }
 
-    $sortedhand = $cardDealerService->validateAndSortHand($cards);
+    $sortedhand = $cardDealerService->validateAndSortHand($hand);
 
     return new JsonResponse($sortedhand,200);
 
