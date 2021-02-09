@@ -7,10 +7,10 @@ namespace App\Controller;
 use App\Core\ApiError;
 use App\Core\ApiErrorException;
 use App\Services\CardDealerService;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use OpenApi\Annotations as OA;
 
 class CardDealer
 {
@@ -32,9 +32,10 @@ class CardDealer
    *
    * @OA\Response(
    *     response=200,
-   *     description="Returns the array of cards",
+   *     description="Returns the array of cards. Example: ['7 Spade', '8 Heart']",
    *     @OA\JsonContent(
    *        type="array",
+   *        @OA\Items(type="string")
    *     )
    * )
    *
@@ -46,7 +47,7 @@ class CardDealer
   {
     $count = $request->query->get('count');
 
-    if ($count === NULL) {
+    if ($count === null) {
       $error = new ApiError(400, ApiError::MISSING_PARAM);
       throw new ApiErrorException($error);
     }
@@ -65,15 +66,19 @@ class CardDealer
    * @OA\Parameter(
    *     name="cards",
    *     in="query",
-   *     description="Array of cards",
-   *     @OA\Schema(type="array")
+   *     description="Array of cards. Example: ['7 Spade', '8 Heart']",
+   *     @OA\Schema(
+   *      type="array",
+   *      @OA\Items(type="string")
+   *     )
    * )
    *
    * @OA\Response(
    *     response=200,
-   *     description="Returns the sorted array of cards",
+   *     description="Returns the sorted array of cards. Example: ['7 Spade', '8 Heart']",
    *     @OA\JsonContent(
    *        type="array",
+   *        @OA\Items(type="string")
    *     )
    * )
    *
@@ -90,9 +95,9 @@ class CardDealer
       throw new ApiErrorException($error);
     }
 
-    $sortedhand = $cardDealerService->sortHand((array) $hand);
+    $sortedhand = $cardDealerService->sortHand((array)$hand);
 
-    return new JsonResponse($sortedhand,200);
+    return new JsonResponse($sortedhand, 200);
 
   }
 
