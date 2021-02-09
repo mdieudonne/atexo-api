@@ -18,7 +18,19 @@
         "symfony/framework-bundle": "5.2.*",
         "symfony/proxy-manager-bridge": "5.2.*",
         "symfony/yaml": "5.2.*",
-        "zircote/swagger-php": "^3.1"
+        "zircote/swagger-php": "^3.1",
+        "doctrine/annotations": "^1.11",
+        "nelmio/api-doc-bundle": "^4.1",
+        "symfony/asset": "5.2.*",
+        "symfony/debug-bundle": "5.2.*",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/property-access": "5.2.*",
+        "symfony/serializer": "5.2.*",
+        "symfony/stopwatch": "^5.2",
+        "symfony/twig-bundle": "^5.2",
+        "symfony/validator": "5.2.*",
+        "symfony/var-dumper": "5.2.*",
+        "symfony/web-profiler-bundle": "^5.2"
     },
     "config": {
         "optimize-autoloader": true,
@@ -62,5 +74,8 @@
             "allow-contrib": false,
             "require": "5.2.*"
         }
+    },
+    "require-dev": {
+
     }
 }
